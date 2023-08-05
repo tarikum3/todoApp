@@ -2,46 +2,21 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCBtr4ng4V6m-XtYLkVtHmJeNbN7UFFJmY",
-  authDomain: "todoapp-a75bd.firebaseapp.com",
-  projectId: "todoapp-a75bd",
-  storageBucket: "todoapp-a75bd.appspot.com",
-  messagingSenderId: "157181210395",
-  appId: "1:157181210395:web:cb532d3d03812311892dbe",
-  measurementId: "G-SMQL3FJ5WM"
-};
 
+const firebaseConfig = {
+  apiKey: "AIzaSyDOCAbC123dEf456GhI789jKl01",
+  authDomain: "myapp-project-123.firebaseapp.com",
+  databaseURL: "https://myapp-project-123.firebaseio.com",
+  projectId: "myapp-project-123",
+  storageBucket: "myapp-project-123.appspot.com",
+  messagingSenderId: "65211879809",
+  appId: "1:65211879909:web:3ae38ef1cdcb2e01fe5f0c",
+  measurementId: "G-8GSGZQ44ST",
+}
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
 
-// const app = initializeApp({
-//   apiKey: 'AIzaSyAs0DKIDTOvItk5kZrCdOEWT2kgwgKFl3c',
-//   authDomain: 'top-project-photo-tagging.firebaseapp.com',
-//   projectId: 'top-project-photo-tagging',
-//   storageBucket: 'top-project-photo-tagging.appspot.com',
-//   messagingSenderId: '704820916168',
-//   appId: '1:704820916168:web:4d4658929c32549ce45afd',
-//   measurementId: 'G-B2S5CCM381',
-// });
-
-// if (import.meta.env.DEV) {
-//   self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
-// }
-
-// const isNode =
-//   typeof process !== 'undefined' &&
-//   process.versions != null &&
-//   process.versions.node != null;
-
-// if (!isNode || import.meta.env.PROD)
-//   initializeAppCheck(app, {
-//     provider: new ReCaptchaV3Provider(
-//       '6LeQzbEjAAAAAO3AYUlEtNtl9a_zQ1Is2tD-DLTs'
-//     ),
-//     isTokenAutoRefreshEnabled: true,
-//   });
 
 const firestore = getFirestore(app);
 
