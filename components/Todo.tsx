@@ -63,6 +63,13 @@ export default function Component({ value, updated, deleted }: Props) {
         >
           {value.title}
         </h3>
+        <h3
+            
+        >
+        <span className={` ${
+            value.priority=="1" ? "text-green-700" : value.priority=="2" ? "text-yellow-700":"text-red-700"
+          }`}>{ value.priority=="1" ? "low" : value.priority=="2" ? "medium":"high"}</span> 
+        </h3>
         <div className="flex">
           <input
             type="checkbox"

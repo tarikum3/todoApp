@@ -34,15 +34,16 @@ export const todoApi = firestoreApi.injectEndpoints({
       providesTags: ["Todo"],
     }),
     createTodo: builder.mutation({
-      async queryFn({ title, ownerId,listId }) {
+      async queryFn({ title, ownerId,listId,priority }) {
         try {
   
           await addDoc(collection(firestore, "todo"), {
             ownerId: ownerId,
             title: title,
             listId: listId,
+            priority:priority,
             completedAt:null,
-            updatedAt:null,  
+            updatedAt:new Date().getTime(),  
             createdAt: new Date().getTime(),
           });
           return { data: null };

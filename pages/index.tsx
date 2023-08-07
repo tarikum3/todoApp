@@ -3,12 +3,13 @@ import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { useDeleteListMutation,useFindListQuery,useCreateListMutation } from "features/list/listSlice";
 import TodoList from "components/TodoList";
 import { useCurrentUser } from "@lib/context";
+
 function CreateDialog() {
  // const user = useContext(UserContext);
  const user = useCurrentUser();
   const [modalOpen, setModalOpen] = useState(false);
   const [title, setTitle] = useState("");
-  const [_private, setPrivate] = useState(false);
+//  const [_private, setPrivate] = useState(false);
 
  // const { create } = useList();
   const [createList]=useCreateListMutation();
@@ -26,7 +27,7 @@ function CreateDialog() {
      await createList({
       title,
       ownerId: user!.id,
-      _private: _private,
+    //  _private: _private,
     });
     } catch (err) {
       alert(`Failed to create list: ${err}`);
@@ -35,7 +36,7 @@ function CreateDialog() {
 
     // reset states
     setTitle("");
-    setPrivate(false);
+    // setPrivate(false);
 
     // close modal
     setModalOpen(false);
@@ -72,15 +73,15 @@ function CreateDialog() {
                 />
               </div>
               <div className="flex items-center">
-                <label htmlFor="private" className="text-lg inline-block w-20">
+                {/* <label htmlFor="private" className="text-lg inline-block w-20">
                   Private
-                </label>
-                <input
+                </label> */}
+                {/* <input
                   id="private"
                   type="checkbox"
                   className="checkbox"
                   onChange={(e: FormEvent<HTMLInputElement>) => setPrivate(e.currentTarget.checked)}
-                />
+                /> */}
               </div>
             </div>
             <div className="modal-action">

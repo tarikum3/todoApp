@@ -22,6 +22,7 @@ declare global {
   createdAt: Date
   updatedAt: Date
 	title: string
+  priority: string
 	listId: string
 	completedAt: Date
 	ownerId: string

@@ -23,7 +23,8 @@ const Login: React.FC<{ csrfToken: string }> = ({ csrfToken }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+const[tab,setTab]=useState("logIn");
+//const[errorM,setErrorM]=useState("");
  // const { create: signup } = useUser();
      const [createUser]=useCreateUserMutation();
   const router = useRouter();
@@ -39,7 +40,7 @@ const Login: React.FC<{ csrfToken: string }> = ({ csrfToken }) => {
       //     password,
       //   },
       // });
-     await createUser({email,name,password});
+      tab=="signUp"&& await createUser({email,name,password});
       const signInResult = await signIn("credentials", {
         redirect: false,
         email,
@@ -48,11 +49,14 @@ const Login: React.FC<{ csrfToken: string }> = ({ csrfToken }) => {
       if (signInResult?.ok) {
         await Router.push("/");
       } else {
+       // setErrorM(""+signInResult?.error);
         console.error("Signin failed:", signInResult?.error);
+        alert("wrong email or password");
       }
     } catch (error) {
       console.error(error);
-      alert("This email has been registered");
+      //setErrorM(""+error);
+     tab=="signUp"&& alert("This email has been registered");
     }
   };
   return (
@@ -69,28 +73,28 @@ const Login: React.FC<{ csrfToken: string }> = ({ csrfToken }) => {
             Todo App
           </Text>
           <TabList>
-            <Tab>Log In</Tab>
-            <Tab>Sign Up</Tab>
+            <Tab onClick={()=>setTab("logIn")}>Log In</Tab>
+            <Tab onClick={()=>setTab("signUp")}>Sign Up</Tab>
           </TabList>
 
           <TabPanels>
             <TabPanel>
-              <form className="space-y-5" action="/api/auth/callback/credentials" method="POST">
-                <Input size="lg" type="hidden" name="csrfToken" value={csrfToken} />
+              {/* <form className="space-y-5" action="/api/auth/callback/credentials" method="POST"> */}
+              <form className="space-y-5" onSubmit={submitData}>
+                {/* <Input size="lg" type="hidden" name="csrfToken" value={csrfToken} /> */}
                 <div>
                   <Input
+                    onChange={(e) => setEmail(e.target.value)}
                     size="lg"
-                    name="email"
-                    id="input-email-for-credentials-provider"
+                    id="input-email-for-new"
                     type="text"
                     placeholder="Email address"
                   />
                 </div>
                 <div>
                   <Input
+                    onChange={(e) => setPassword(e.target.value)}
                     size="lg"
-                    name="password"
-                    id="input-password-for-credentials-provider"
                     type="password"
                     placeholder="Your password"
                   />

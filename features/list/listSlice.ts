@@ -33,14 +33,13 @@ export const listApi = firestoreApi.injectEndpoints({
       providesTags: ["List"],
     }),
     createList: builder.mutation({
-      async queryFn({ title, ownerId,_private }) {
+      async queryFn({ title, ownerId }) {
         try {
   
           await addDoc(collection(firestore, "list"), {
             ownerId: ownerId,
             title: title,
-            private: _private, 
-            updatedAt:null,  
+            updatedAt:new Date().getTime(), 
             createdAt: new Date().getTime(),
           });
           return { data: null };

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Avatar from "./Avatar";
+import Bag from "./icons/Bag"
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { User } from "next-auth";
@@ -11,14 +12,10 @@ type Props = {
 export default function NavBar({ user }: Props) {
   return (
     <div className="navbar bg-base-100 px-8 py-2 border-b">
-      <div className="flex-1">
-        <Link href="/">
-          <a className="flex items-center">
-            <Image src="/logo.png" alt="Logo" width={32} height={32} />
+      <div className="flex-1 justify-center items-center">
+        
             <div className="text-xl font-semibold ml-2 text-slate-700 hidden md:inline-block">Todo App</div>
-            <p className="text-xs ml-2 text-gray-500 self-end"></p>
-          </a>
-        </Link>
+
       </div>
       <div className="flex-none">
         <div className="dropdown dropdown-end">

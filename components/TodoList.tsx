@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { useDeleteListMutation } from "features/list/listSlice";
 import TimeInfo from "./TimeInfo";
 import { notAuthorizedList } from "../lib/error";
-
+import ListIcon  from "./icons/List"
 // type Props = {
 //   value: List & { owner: User };
 // };
@@ -20,7 +20,7 @@ export default function TodoList({ value }: Props) {
   //const { del } = useList();
   const [deleteList]=useDeleteListMutation();
   const delList = async () => {
-    if (confirm("Are you sure to delete this list?")) {
+   // if (confirm("Are you sure to delete this list?")) {
       try {
        // await del(value.id);
       await deleteList({id:value.id});
@@ -29,20 +29,22 @@ export default function TodoList({ value }: Props) {
           notAuthorizedList();
         }
       }
-    }
+    //}
   };
 
   return (
-    <div className="card w-80 bg-base-100 shadow-xl cursor-pointer hover:bg-gray-50">
+    <div className="card h-40 w-80 bg-blue-100 shadow-xl cursor-pointer hover:bg-gray-50">
       <Link href={`${router.asPath}list/${value.id}`}>
         <a>
           <figure>
-            <Image src={`https://picsum.photos/300/200?r=${value.id}`} width={320} height={200} alt="Cover" />
+            {/* <Image src={`https://picsum.photos/300/200?r=${value.id}`} width={320} height={200} alt="Cover" /> */}
+            {/* <ListIcon width={40} height={80} ></ListIcon> */}
+         
           </figure>
         </a>
       </Link>
       <div className="card-body">
-        <Link href={`${router.asPath}${value.id}`}>
+      <Link href={`${router.asPath}list/${value.id}`}>
           <a>
             <h2 className="card-title line-clamp-1">{value.title || "Missing Title"}</h2>
           </a>
@@ -53,11 +55,11 @@ export default function TodoList({ value }: Props) {
           </div>
           <div className="flex space-x-2">
             <Avatar user={value.owner} size={18} />
-            {value.private && (
+            {/* {value.private && (
               <div className="tooltip" data-tip="Private">
                 <LockClosedIcon className="w-4 h-4 text-gray-500" />
               </div>
-            )}
+            )} */}
             <TrashIcon
               className="w-4 h-4 text-gray-500 cursor-pointer"
               onClick={() => {
