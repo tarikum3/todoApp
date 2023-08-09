@@ -1,7 +1,7 @@
 
 import { useRouter } from "next/router";
 import { PlusIcon } from "@heroicons/react/24/outline";
-import { ChangeEvent, KeyboardEvent, useState ,useEffect, FormEvent} from "react";
+import { ChangeEvent, useRef, useState ,useEffect, FormEvent} from "react";
 import { useCurrentUser } from "@lib/context";
 import TodoComponent from "components/Todo";
 import { notAuthorizedList } from "../../../lib/error";
@@ -130,48 +130,60 @@ export default function TodoList() {
   const user = useCurrentUser();
   const router = useRouter();
   //const { get: getList } = useList();
-  const {data: lists}=useFindListQuery();
+  
   //const { create: createTodo, find: findTodos } = useTodo();
   const [createTodo]=useCreateTodoMutation();
   const [title, setTitle] = useState("");
   const [todosview, setTodosview] = useState([]);
   const [sortBy, setSortBy] = useState("");
-  //const { data: list } = getList(router.query.listId as string);
-  const list =lists?.filter((item)=>item?.id==router.query.listId)[0];
+  
+  const {data: lists}=useFindListQuery();
+  const currentlist =lists?.filter((item)=>item?.id==router.query.listId)[0];
+
   const {data: todos}=useFindTodoQuery();
   const listtodos =todos?.filter((item)=>item?.listId==router.query.listId);
+ // const count = useRef(0);
+
+
+
 
   useEffect(() => {
-if(listtodos?.length>0&&title==""){
-  setTodosview(listtodos);
-
-}
-if(title!=""){
-  //filter = input.value.toUpperCase();
+if(listtodos?.length>0){
+  
   setTodosview(listtodos?.filter((item)=>item?.title.toUpperCase().indexOf(title.toUpperCase()) > -1));
 
 }
 
-  },[listtodos,title])
+  },[title])
+
+  // useEffect(() => {
+  //   count.current = count.current + 1;
+    
+  //     },[currentlist])
+
+  //     console.log("count",count.current);
+
   useEffect(() => {
     if(sortBy!=""){
       
       todosview.sort(function(a, b){
         let x = ""+a[sortBy];
-        let y = ""+b[sortBy].toLowerCase();
+        let y = ""+b[sortBy];
         if (x.toLowerCase() < y.toLowerCase()) {return -1;}
         if (x.toLowerCase() > y.toLowerCase()) {return 1;}
         return 0;
       });
+      setTodosview(prevState => {
+       
+        return [...prevState];
+      });
+
     }
-    if(sortBy=="title"){
-     
     
-    }
     
       },[sortBy])
 
-  if (!list) {
+  if (!currentlist) {
     return <p>Loading ...</p>;
   }
 
@@ -184,7 +196,7 @@ if(title!=""){
       //     listId: list!.id,
       //   },
       // });
-      const todo = await createTodo({title:title, ownerId:user.id,listId :list.id});
+      const todo = await createTodo({title:title, ownerId:user.id,listId :currentlist.id});
         
       
      // console.log(`Todo created: ${todo}`);
@@ -201,15 +213,15 @@ if(title!=""){
    <div className="">   
       <ul className="absolute left-[80%] pt-12">
        <li className="text-2xl font-semibold mb-4">Sort by</li>
-       <button className={sortBy=="title"?"":""} onClick={()=>setSortBy("title")}>title</button>
-       <li className="bg-blue-400" onClick={()=>setSortBy("createdAt")}>date </li>
-       <li className="list p-1" onClick={()=>setSortBy("priority")}>priority</li>
+       <li className=" p-1"  ><span className={sortBy=="title"?"":""} onClick={()=>setSortBy("title")}>title</span></li>
+       <li className="p-1" onClick={()=>setSortBy("createdAt")}>date </li>
+       <li className=" p-1" onClick={()=>setSortBy("priority")}>priority</li>
         </ul></div>
    
       <div className="container w-full flex flex-col items-center pt-12">
        
        
-    <h1 className="text-2xl font-semibold mb-4">{list?.title}</h1>
+    <h1 className="text-2xl font-semibold mb-4">{currentlist?.title}</h1>
 
         <div className="flex space-x-2">
           <input

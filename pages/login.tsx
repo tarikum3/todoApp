@@ -40,7 +40,7 @@ const[tab,setTab]=useState("logIn");
       //     password,
       //   },
       // });
-      tab=="signUp"&& await createUser({email,name,password});
+      password&&name&&email&& await createUser({email,name,password});
       const signInResult = await signIn("credentials", {
         redirect: false,
         email,
@@ -73,8 +73,8 @@ const[tab,setTab]=useState("logIn");
             Todo App
           </Text>
           <TabList>
-            <Tab onClick={()=>setTab("logIn")}>Log In</Tab>
-            <Tab onClick={()=>setTab("signUp")}>Sign Up</Tab>
+            <Tab >Log In</Tab>
+            <Tab >Sign Up</Tab>
           </TabList>
 
           <TabPanels>
