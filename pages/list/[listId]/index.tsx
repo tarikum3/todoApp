@@ -143,14 +143,21 @@ export default function TodoList() {
   const {data: todos}=useFindTodoQuery();
   const listtodos =todos?.filter((item)=>item?.listId==router.query.listId);
  // const count = useRef(0);
-
+ useEffect(() => {
+  if(todos?.length>0){
+    
+    setTodosview(todos?.filter((item)=>item?.listId==router.query.listId));
+  
+  }
+  
+    },[todos])
 
 
 
   useEffect(() => {
 if(listtodos?.length>0){
   
-  setTodosview(listtodos?.filter((item)=>item?.title.toUpperCase().indexOf(title.toUpperCase()) > -1));
+  setTodosview(todos?.filter((item)=>item?.title.toUpperCase().indexOf(title.toUpperCase()) > -1));
 
 }
 
