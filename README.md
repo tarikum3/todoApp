@@ -6,3 +6,11 @@ First, run the development server:
 npm run dev
 # or
 yarn dev
+
+### Tecnologias which have been used
+
+- NextJS and Typescript
+- Redux Toolkit and RTK Query
+- tailwindCSS with daisyUI
+- Chakra UI Components 
+- firebase store
