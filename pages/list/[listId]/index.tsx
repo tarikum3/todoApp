@@ -53,7 +53,7 @@ function CreateDialog() {
        />
        <div className="modal">
          <div className="modal-box">
-           <h3 className="font-bold text-xl mb-8">Create a Todo list</h3>
+           <h3 className="font-bold text-xl mb-8">Create a Task</h3>
            <form onSubmit={onSubmit}>
              <div className="flex flex-col space-y-4">
                <div className="flex items-center">
@@ -124,16 +124,14 @@ export default function TodoList() {
 
   const [createTodo]=useCreateTodoMutation();
   const [title, setTitle] = useState("");
-  //const [todosview, setTodosview] = useState([]);
+ 
   const [sortBy, setSortBy] = useState("");
   
   const {data: lists}=useFindListQuery({ownerId:user.id});
   const currentlist =lists?.filter((item)=>item?.id==router.query.listId)[0];
 
   const {data: todos}=useFindTodoQuery({ listId:router.query.listId});
-  //const listtodos =todos?.filter((item)=>item?.listId==router.query.listId);
- // const count = useRef(0);
-//const listsort =todos?.filter((item)=>true).sort(sortList);
+
  function sortList(a, b){
   let x = ""+a[sortBy];
   let y = ""+b[sortBy];
@@ -148,66 +146,17 @@ function filterList(item){
 
 
 
-//  useEffect(() => {
-//   if(todos?.length>0){
-    
-//     setTodosview(todos?.filter((item)=>item?.listId==router.query.listId));
-  
-//   }
-  
-//     },[todos])
 
 
 
-//   useEffect(() => {
-// if(listtodos?.length>0){
-  
-//   setTodosview(todos?.filter((item)=>item?.title.toUpperCase().indexOf(title.toUpperCase()) > -1));
 
-// }
-
-//   },[title])
-
-
-
-  // useEffect(() => {
-  //   if(sortBy!=""){
-      
-  //     todosview.sort(function(a, b){
-  //       let x = ""+a[sortBy];
-  //       let y = ""+b[sortBy];
-  //       if (x.toLowerCase() < y.toLowerCase()) {return -1;}
-  //       if (x.toLowerCase() > y.toLowerCase()) {return 1;}
-  //       return 0;
-  //     });
-  //     setTodosview(prevState => {
-       
-  //       return [...prevState];
-  //     });
-
-  //   }
-    
-    
-  //     },[sortBy])
+ 
 
   if (!currentlist) {
     return <p>Loading ...</p>;
   }
 
-  // const _createTodo = async () => {
-  //   try {
- 
-  //     const todo = await createTodo({title:title, ownerId:user.id,listId :currentlist.id});
-        
-      
-    
-  //     setTitle("");
-  //   } catch (error: any) {
-  //     if (error.status == 403) {
-  //       notAuthorizedList();
-  //     }
-  //   }
-  // };
+
 
   return (
     <>
