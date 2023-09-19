@@ -5,40 +5,30 @@ import TodoList from "components/TodoList";
 import { useCurrentUser } from "@lib/context";
 
 function CreateDialog() {
- // const user = useContext(UserContext);
+
  const user = useCurrentUser();
   const [modalOpen, setModalOpen] = useState(false);
   const [title, setTitle] = useState("");
-//  const [_private, setPrivate] = useState(false);
 
- // const { create } = useList();
   const [createList]=useCreateListMutation();
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
     try {
-      // await create({
-      //   data: {
-      //     title,
-      //     ownerId: user!.id,
-      //     private: _private,
-      //   },
-      // });
+  
      await createList({
       title,
       ownerId: user!.id,
-    //  _private: _private,
+   
     });
     } catch (err) {
       alert(`Failed to create list: ${err}`);
       return;
     }
 
-    // reset states
+   
     setTitle("");
-    // setPrivate(false);
-
-    // close modal
+  
     setModalOpen(false);
   };
 
@@ -72,17 +62,7 @@ function CreateDialog() {
                   onChange={(e: FormEvent<HTMLInputElement>) => setTitle(e.currentTarget.value)}
                 />
               </div>
-              <div className="flex items-center">
-                {/* <label htmlFor="private" className="text-lg inline-block w-20">
-                  Private
-                </label> */}
-                {/* <input
-                  id="private"
-                  type="checkbox"
-                  className="checkbox"
-                  onChange={(e: FormEvent<HTMLInputElement>) => setPrivate(e.currentTarget.checked)}
-                /> */}
-              </div>
+
             </div>
             <div className="modal-action">
               <input className="btn btn-primary" type="submit" value="Create" />
@@ -99,17 +79,9 @@ function CreateDialog() {
 
 export default function Home() {
   const user = useCurrentUser();
-  // const { find } = useList();
-  const {data: lists}=useFindListQuery();
-  // const { data: lists } = find({
-  //   include: {
-  //     owner: true,
-  //   },
-  //   orderBy: {
-  //     updatedAt: "desc",
-  //   },
-  // });
-  // const { data: lists } =findList();
+
+  const {data: lists}=useFindListQuery({ownerId:user.id});
+ 
   return (
     <>
       <div className="p-8">

@@ -8,19 +8,23 @@ import {
   updateDoc,
   addDoc,
   getDocs,
+  query,
+  where,
 } from "firebase/firestore";
 import { firestore } from "../../firebase";
 import { firestoreApi } from '../../store/firestoreApi';
-// import { ScoresTable, ScoresTables } from "../../types";
+
 
 export const todoApi = firestoreApi.injectEndpoints({
   endpoints: (builder) => ({
-    findTodo: builder.query<Todo[], void>({
-      async queryFn() {
+    findTodo: builder.query({
+      async queryFn({listId}) {
         try {
+          const q = query(collection(firestore, "todo"), where("listId", "==", listId));
           
           const ref = collection(firestore, "todo")as CollectionReference<Todo>;
-          const querySnapshot = await getDocs(ref);
+          //const querySnapshot = await getDocs(ref);
+          const querySnapshot = await getDocs(q);
           let todos: Todo[] = [];
           querySnapshot?.forEach((doc) => {
             todos.push({ id: doc.id, ...doc.data() } as Todo);

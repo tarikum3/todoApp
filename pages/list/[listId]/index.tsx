@@ -9,25 +9,19 @@ import { useCreateTodoMutation ,useFindTodoQuery} from "features/todo/todoSlice"
 import { useDeleteListMutation,useFindListQuery } from "features/list/listSlice";
 
 function CreateDialog() {
-  // const user = useContext(UserContext);
+  
   const user = useCurrentUser();
    const [modalOpen, setModalOpen] = useState(false);
    const [title, setTitle] = useState("");
   const [priority, setPriority] = useState("");
   const router = useRouter();
-  // const { create } = useList();
+ 
    const [createTodo]=useCreateTodoMutation();
    const onSubmit = async (event: FormEvent) => {
      event.preventDefault();
  
      try {
-       // await create({
-       //   data: {
-       //     title,
-       //     ownerId: user!.id,
-       //     private: _private,
-       //   },
-       // });
+   
       await createTodo({
        title,
        
@@ -39,11 +33,9 @@ function CreateDialog() {
        return;
      }
  
-     // reset states
+    
      setTitle("");
-     // setPrivate(false);
- 
-     // close modal
+   
      setModalOpen(false);
    };
  
@@ -129,100 +121,102 @@ function CreateDialog() {
 export default function TodoList() {
   const user = useCurrentUser();
   const router = useRouter();
-  //const { get: getList } = useList();
-  
-  //const { create: createTodo, find: findTodos } = useTodo();
+
   const [createTodo]=useCreateTodoMutation();
   const [title, setTitle] = useState("");
-  const [todosview, setTodosview] = useState([]);
+  //const [todosview, setTodosview] = useState([]);
   const [sortBy, setSortBy] = useState("");
   
-  const {data: lists}=useFindListQuery();
+  const {data: lists}=useFindListQuery({ownerId:user.id});
   const currentlist =lists?.filter((item)=>item?.id==router.query.listId)[0];
 
-  const {data: todos}=useFindTodoQuery();
-  const listtodos =todos?.filter((item)=>item?.listId==router.query.listId);
+  const {data: todos}=useFindTodoQuery({ listId:router.query.listId});
+  //const listtodos =todos?.filter((item)=>item?.listId==router.query.listId);
  // const count = useRef(0);
- useEffect(() => {
-  if(todos?.length>0){
-    
-    setTodosview(todos?.filter((item)=>item?.listId==router.query.listId));
+//const listsort =todos?.filter((item)=>true).sort(sortList);
+ function sortList(a, b){
+  let x = ""+a[sortBy];
+  let y = ""+b[sortBy];
+  if (x.toLowerCase() < y.toLowerCase()) {return -1;}
+  if (x.toLowerCase() > y.toLowerCase()) {return 1;}
+  return 0;
+}
+function filterList(item){
   
-  }
-  
-    },[todos])
-
-
-
-  useEffect(() => {
-if(listtodos?.length>0){
-  
-  setTodosview(todos?.filter((item)=>item?.title.toUpperCase().indexOf(title.toUpperCase()) > -1));
-
+  return item?.title.toUpperCase().indexOf(title.toUpperCase()) > -1;
 }
 
-  },[title])
+
+
+//  useEffect(() => {
+//   if(todos?.length>0){
+    
+//     setTodosview(todos?.filter((item)=>item?.listId==router.query.listId));
+  
+//   }
+  
+//     },[todos])
+
+
+
+//   useEffect(() => {
+// if(listtodos?.length>0){
+  
+//   setTodosview(todos?.filter((item)=>item?.title.toUpperCase().indexOf(title.toUpperCase()) > -1));
+
+// }
+
+//   },[title])
+
+
 
   // useEffect(() => {
-  //   count.current = count.current + 1;
-    
-  //     },[currentlist])
-
-  //     console.log("count",count.current);
-
-  useEffect(() => {
-    if(sortBy!=""){
+  //   if(sortBy!=""){
       
-      todosview.sort(function(a, b){
-        let x = ""+a[sortBy];
-        let y = ""+b[sortBy];
-        if (x.toLowerCase() < y.toLowerCase()) {return -1;}
-        if (x.toLowerCase() > y.toLowerCase()) {return 1;}
-        return 0;
-      });
-      setTodosview(prevState => {
+  //     todosview.sort(function(a, b){
+  //       let x = ""+a[sortBy];
+  //       let y = ""+b[sortBy];
+  //       if (x.toLowerCase() < y.toLowerCase()) {return -1;}
+  //       if (x.toLowerCase() > y.toLowerCase()) {return 1;}
+  //       return 0;
+  //     });
+  //     setTodosview(prevState => {
        
-        return [...prevState];
-      });
+  //       return [...prevState];
+  //     });
 
-    }
+  //   }
     
     
-      },[sortBy])
+  //     },[sortBy])
 
   if (!currentlist) {
     return <p>Loading ...</p>;
   }
 
-  const _createTodo = async () => {
-    try {
-      // const todo = await createTodo({
-      //   data: {
-      //     title,
-      //     ownerId: user!.id,
-      //     listId: list!.id,
-      //   },
-      // });
-      const todo = await createTodo({title:title, ownerId:user.id,listId :currentlist.id});
+  // const _createTodo = async () => {
+  //   try {
+ 
+  //     const todo = await createTodo({title:title, ownerId:user.id,listId :currentlist.id});
         
       
-     // console.log(`Todo created: ${todo}`);
-      setTitle("");
-    } catch (error: any) {
-      if (error.status == 403) {
-        notAuthorizedList();
-      }
-    }
-  };
+    
+  //     setTitle("");
+  //   } catch (error: any) {
+  //     if (error.status == 403) {
+  //       notAuthorizedList();
+  //     }
+  //   }
+  // };
 
   return (
     <>
    <div className="">   
       <ul className="absolute left-[80%] pt-12">
        <li className="text-2xl font-semibold mb-4">Sort by</li>
-       <li className=" p-1"  ><span className={sortBy=="title"?"":""} onClick={()=>setSortBy("title")}>title</span></li>
-       <li className="p-1" onClick={()=>setSortBy("createdAt")}>date </li>
-       <li className=" p-1" onClick={()=>setSortBy("priority")}>priority</li>
+       <li ><button className={sortBy=="title"?" p-1 underline":"p-1"}   onClick={()=>setSortBy("title")}>title</button></li>
+       <li> <button  className={sortBy=="createdAt"?" p-1 underline":"p-1"} onClick={()=>setSortBy("createdAt")}>date  </button></li>
+       <li><button className={sortBy=="priority"?" p-1 underline":"p-1"} onClick={()=>setSortBy("priority")}>priority</button></li>
         </ul></div>
    
       <div className="container w-full flex flex-col items-center pt-12">
@@ -236,38 +230,31 @@ if(listtodos?.length>0){
             placeholder="search task"
             className="input input-bordered w-72 max-w-xs mt-2"
             value={title}
-            // onKeyUp={(e: KeyboardEvent<HTMLInputElement>) => {
-            //   if (e.key === "Enter") {
-            //     _createTodo();
-            //   }
-            // }}
+        
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
               setTitle(e.currentTarget.value);
             }}
           />
           <button >
-            {/* <PlusIcon className="w-6 h-6 text-gray-500" /> */}
+           
             <label htmlFor="create-list-modal2" className=" modal-button w-6 h-6 ">
             New task 
           </label>
           </button>
-          {/* <div className="w-full flex flex-col md:flex-row mb-8 space-y-4 md:space-y-0 md:space-x-4">
-          <label htmlFor="create-list-modal2" className="btn btn-primary btn-wide modal-button">
-            
-          </label>
-        </div> */}
+         
   
         </div>
         <ul className="flex flex-col space-y-4 py-8 w-11/12 md:w-auto">
-          {todosview?.map((todo) => (
+          {/* {todosview?.map((todo) => ( */}
+          {todos?.filter(filterList).sort(sortList).map((todo) => (
             <TodoComponent
               key={todo.id}
               value={{...todo,owner:user}}
               updated={() => {
-                // invalidateTodos();
+                
               }}
               deleted={() => {
-                // invalidateTodos();
+               
               }}
             />
           ))}

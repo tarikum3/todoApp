@@ -10,7 +10,7 @@ import {
 } from "firebase/firestore";
 import { firestore } from "../../firebase";
 import { firestoreApi } from '../../store/firestoreApi';
-// import { ScoresTable, ScoresTables } from "../../types";
+
 
 export const userApi = firestoreApi.injectEndpoints({
   endpoints: (builder) => ({

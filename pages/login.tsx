@@ -24,8 +24,7 @@ const Login: React.FC<{ csrfToken: string }> = ({ csrfToken }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 const[tab,setTab]=useState("logIn");
-//const[errorM,setErrorM]=useState("");
- // const { create: signup } = useUser();
+
      const [createUser]=useCreateUserMutation();
   const router = useRouter();
   const error = router.query["error"];
@@ -33,13 +32,7 @@ const[tab,setTab]=useState("logIn");
   const submitData = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
-      // await signup({
-      //   data: {
-      //     email,
-      //     name,
-      //     password,
-      //   },
-      // });
+  
       password&&name&&email&& await createUser({email,name,password});
       const signInResult = await signIn("credentials", {
         redirect: false,
@@ -49,13 +42,13 @@ const[tab,setTab]=useState("logIn");
       if (signInResult?.ok) {
         await Router.push("/");
       } else {
-       // setErrorM(""+signInResult?.error);
+       
         console.error("Signin failed:", signInResult?.error);
         alert("wrong email or password");
       }
     } catch (error) {
       console.error(error);
-      //setErrorM(""+error);
+      
      tab=="signUp"&& alert("This email has been registered");
     }
   };
@@ -79,9 +72,9 @@ const[tab,setTab]=useState("logIn");
 
           <TabPanels>
             <TabPanel>
-              {/* <form className="space-y-5" action="/api/auth/callback/credentials" method="POST"> */}
+
               <form className="space-y-5" onSubmit={submitData}>
-                {/* <Input size="lg" type="hidden" name="csrfToken" value={csrfToken} /> */}
+
                 <div>
                   <Input
                     onChange={(e) => setEmail(e.target.value)}

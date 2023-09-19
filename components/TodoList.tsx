@@ -7,9 +7,7 @@ import { useDeleteListMutation } from "features/list/listSlice";
 import TimeInfo from "./TimeInfo";
 import { notAuthorizedList } from "../lib/error";
 import ListIcon  from "./icons/List"
-// type Props = {
-//   value: List & { owner: User };
-// };
+
 type Props = {
   value: List & { owner: {id:string,name:string,email:string,image?:string}  };
 };
@@ -17,19 +15,19 @@ type Props = {
 export default function TodoList({ value }: Props) {
   const router = useRouter();
 
-  //const { del } = useList();
+  
   const [deleteList]=useDeleteListMutation();
   const delList = async () => {
-   // if (confirm("Are you sure to delete this list?")) {
+   
       try {
-       // await del(value.id);
+       
       await deleteList({id:value.id});
       } catch (error: any) {
         if (error.status == 403) {
           notAuthorizedList();
         }
       }
-    //}
+   
   };
 
   return (

@@ -5,11 +5,7 @@ import Avatar from "./Avatar";
 import TimeInfo from "./TimeInfo";
 import { useUpdateTodoMutation ,useDeleteTodoMutation} from "features/todo/todoSlice";
 
-// type Props = {
-//   value: Todo & { owner: User };
-//   updated?: (value: Todo) => any;
-//   deleted?: (value: Todo) => any;
-// };
+
 type Props = {
   value: Todo & { owner: {id:string,name:string,email:string,image?:string} };
   updated?: (value: Todo) => any;
@@ -17,23 +13,12 @@ type Props = {
 };
 export default function Component({ value, updated, deleted }: Props) {
   const [completed, setCompleted] = useState(!!value.completedAt);
-  //const { update, del } = useTodo();
+  
   const [updateTodo]=useUpdateTodoMutation();
   const [deleteTodo]=useDeleteTodoMutation();
   useEffect(() => {
     if (!!value.completedAt !== completed) {
-      // update(value.id, {
-      //   data: { completedAt: completed ? new Date() : null },
-      // })
-      //   .then((newValue: any) => {
-      //     if (updated && newValue) {
-      //       updated(newValue);
-      //     }
-      //   })
-      //   .catch((error: any) => {
-      //     notAuthorizedList();
-      //     setCompleted(!completed);
-      //   });
+   
       updateTodo({id:value.id,data: { completedAt: completed ? new Date() : null }}).catch((error: any) => {
         notAuthorizedList();
         setCompleted(!completed);
@@ -43,7 +28,7 @@ export default function Component({ value, updated, deleted }: Props) {
 
   const delTodo = async () => {
     try {
-      //await del(value.id);
+      
       deleteTodo({id:value.id});
       if (deleted) {
         deleted(value);
